@@ -604,7 +604,7 @@ main{max-width:1200px;margin:0 auto;padding:78px 22px 40px;position:relative}
 }
 /* main padding follows the real navbar height (set by JS) */
 main{padding-top:calc(var(--nav-h,64px) + 14px)!important}
-/* Dev panel button is hidden for students; open the site with ?dev=1 to show it */
+/* Developer panel visibility is controlled by Supabase authentication and role. */
 .dev-toggle-float{display:none}
 .dev-toggle-float.visible{display:grid}
 /* Respect "reduce motion" (also helps weak phones) */
@@ -615,91 +615,25 @@ main{padding-top:calc(var(--nav-h,64px) + 14px)!important}
 /* Timer shows time LEFT now */
 .timer-bar.warn{border-color:rgba(255,90,90,.6)}
 
-/* ==================== AUTH / ROLE ACCESS ==================== */
-.auth-modal{position:fixed;inset:0;z-index:10000;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,2,14,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.auth-modal.show{display:flex}
-.auth-box{width:min(420px,100%);padding:30px;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:linear-gradient(145deg,rgba(27,15,48,.97),rgba(10,7,24,.98));box-shadow:0 30px 100px rgba(0,0,0,.55),0 0 50px rgba(176,108,255,.14);color:#fff}
-.auth-title{font-size:25px;font-weight:900;margin:0 0 8px;text-align:center}
-.auth-sub{font-size:13px;color:rgba(255,255,255,.58);text-align:center;margin:0 0 22px;line-height:1.5}
-.auth-label{display:block;font-size:12px;font-weight:800;color:rgba(255,255,255,.7);margin:12px 0 7px}
-.auth-input{width:100%;box-sizing:border-box;padding:13px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:#fff;outline:none;font:inherit}
-.auth-input:focus{border-color:rgba(176,108,255,.7);box-shadow:0 0 0 3px rgba(176,108,255,.12)}
-.auth-actions{display:flex;gap:10px;margin-top:20px}
-.auth-submit,.auth-close{flex:1;padding:12px 15px;border-radius:12px;font:inherit;font-weight:800;cursor:pointer}
-.auth-submit{border:0;color:#fff;background:linear-gradient(120deg,#9b6cff,#d05cff);box-shadow:0 10px 28px -10px rgba(176,108,255,.8)}
-.auth-close{border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.72);background:rgba(255,255,255,.04)}
-.auth-error{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(255,70,100,.1);border:1px solid rgba(255,70,100,.2);color:#ff9aaf;font-size:12px;line-height:1.4}
-.auth-error.show{display:block}
-.auth-user{font-size:11px;color:rgba(255,255,255,.45);text-align:center;margin-top:14px;word-break:break-all}
-.dev-logout{margin-top:12px!important;border-color:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.6)!important;background:rgba(255,255,255,.035)!important}
-@media(max-width:720px){.auth-box{padding:24px;border-radius:20px}.auth-title{font-size:22px}}
+/* ===== SECURE DEVELOPER LOGIN ===== */
+.dev-auth-modal{position:fixed;inset:0;z-index:10050;background:rgba(0,0,0,.72);backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px}
+.dev-auth-modal.show{display:flex}
+.dev-auth-box{width:min(390px,100%);background:linear-gradient(150deg,rgba(30,15,55,.98),rgba(18,8,35,.98));border:1px solid rgba(176,108,255,.35);border-radius:22px;padding:24px;box-shadow:0 30px 90px -25px rgba(0,0,0,.95)}
+.dev-auth-title{font-size:18px;font-weight:800;color:#fff;margin-bottom:6px}
+.dev-auth-sub{font-size:12.5px;line-height:1.55;color:#b9acd0;margin-bottom:18px}
+.dev-auth-box input{width:100%;box-sizing:border-box;padding:12px 14px;margin:0 0 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06);color:#fff;outline:none;font:inherit}
+.dev-auth-box input:focus{border-color:rgba(176,108,255,.65);box-shadow:0 0 0 3px rgba(176,108,255,.1)}
+.dev-auth-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:8px}
+.dev-auth-actions button{font:inherit;font-weight:700;padding:10px 15px;border-radius:100px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:#fff;cursor:pointer}
+.dev-auth-actions button.primary{border-color:transparent;background:linear-gradient(120deg,#b06cff,#ff5c8a)}
+.dev-auth-error{display:none;color:#ffb4c5;font-size:12px;line-height:1.45;margin:2px 0 10px}
+.dev-auth-error.show{display:block}
+.dev-auth-status{font-size:11px;color:#9d8fb5;margin-top:10px;min-height:16px}
+.dev-auth-user{font-size:10.5px;color:#9d8fb5;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-/* ==================== ADMIN USER MANAGEMENT ==================== */
-.admin-users-btn{margin-top:10px!important;border-color:rgba(255,255,255,.1)!important;color:rgba(255,255,255,.6)!important;background:rgba(255,255,255,.035)!important}
-.admin-users-modal{position:fixed;inset:0;z-index:10001;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(5,2,14,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-.admin-users-modal.show{display:flex}
-.admin-users-box{width:min(620px,100%);max-height:min(760px,90vh);overflow:auto;padding:26px;border:1px solid rgba(255,255,255,.14);border-radius:24px;background:linear-gradient(145deg,rgba(27,15,48,.98),rgba(10,7,24,.99));box-shadow:0 30px 100px rgba(0,0,0,.6),0 0 50px rgba(176,108,255,.12);color:#fff}
-.admin-users-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
-.admin-users-title{font-size:22px;font-weight:900}
-.admin-users-close{width:34px;height:34px;border-radius:50%;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);color:#fff;cursor:pointer}
-.admin-create{padding:16px;border-radius:16px;border:1px solid rgba(255,255,255,.09);background:rgba(255,255,255,.035);margin-bottom:18px}
-.admin-create-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.admin-users-box .auth-input{margin:0}
-.admin-create-actions{display:flex;gap:10px;margin-top:10px}
-.admin-create-actions button{flex:1}
-.admin-list{display:grid;gap:8px}
-.admin-user-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;padding:12px;border-radius:13px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.07)}
-.admin-user-email{font-size:13px;font-weight:800;word-break:break-all}
-.admin-user-meta{font-size:11px;color:rgba(255,255,255,.45);margin-top:3px}
-.admin-role-select{padding:8px 9px;border-radius:9px;border:1px solid rgba(255,255,255,.12);background:#171025;color:#fff;font:inherit;font-size:12px}
-.admin-msg{display:none;margin:10px 0;padding:10px 12px;border-radius:10px;font-size:12px;line-height:1.4}
-.admin-msg.show{display:block}
-.admin-msg.ok{background:rgba(61,220,132,.1);border:1px solid rgba(61,220,132,.2);color:#9ff0bd}
-.admin-msg.err{background:rgba(255,70,100,.1);border:1px solid rgba(255,70,100,.2);color:#ff9aaf}
-@media(max-width:560px){.admin-create-grid{grid-template-columns:1fr}.admin-users-box{padding:20px}}
 </style>
 </head>
 <body>
-
-<!-- AUTHENTICATION — only shown when ?login=1/#login is requested -->
-<div class="auth-modal" id="authModal" aria-hidden="true">
-  <div class="auth-box" role="dialog" aria-modal="true" aria-labelledby="authTitle">
-    <h2 class="auth-title" id="authTitle">🔐 Вход в English Alfea</h2>
-    <p class="auth-sub">Войдите в свой аккаунт. Права доступа определяются сервером.</p>
-    <form id="authForm">
-      <label class="auth-label" for="authEmail">Email</label>
-      <input class="auth-input" id="authEmail" type="email" autocomplete="username" required placeholder="you@example.com">
-      <label class="auth-label" for="authPassword">Пароль</label>
-      <input class="auth-input" id="authPassword" type="password" autocomplete="current-password" required placeholder="••••••••">
-      <div class="auth-error" id="authError"></div>
-      <div class="auth-actions">
-        <button class="auth-close" type="button" id="authClose">Закрыть</button>
-        <button class="auth-submit" type="submit" id="authSubmit">Войти</button>
-      </div>
-    </form>
-    <div class="auth-user" id="authUser"></div>
-  </div>
-</div>
-
-
-<!-- ADMIN USER MANAGEMENT -->
-<div class="admin-users-modal" id="adminUsersModal" aria-hidden="true">
-  <div class="admin-users-box" role="dialog" aria-modal="true" aria-labelledby="adminUsersTitle">
-    <div class="admin-users-head"><div class="admin-users-title" id="adminUsersTitle">👑 Пользователи</div><button class="admin-users-close" id="adminUsersClose" type="button">×</button></div>
-    <div class="admin-create">
-      <div style="font-weight:900;margin-bottom:5px">Добавить разработчика</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.48);line-height:1.45;margin-bottom:12px">Создайте аккаунт прямо здесь. Разработчик получит доступ к режиму разработчика, но не к управлению пользователями.</div>
-      <div class="admin-create-grid">
-        <input class="auth-input" id="newDevEmail" type="email" placeholder="Email разработчика" autocomplete="off">
-        <input class="auth-input" id="newDevPassword" type="password" placeholder="Временный пароль" autocomplete="new-password">
-      </div>
-      <div class="admin-msg" id="adminUsersMsg"></div>
-      <div class="admin-create-actions"><button class="auth-submit" id="createDevBtn" type="button">➕ Создать разработчика</button></div>
-    </div>
-    <div style="font-size:13px;font-weight:900;margin-bottom:10px">Все аккаунты</div>
-    <div class="admin-list" id="adminUserList"><div style="color:rgba(255,255,255,.45);font-size:12px">Загрузка…</div></div>
-  </div>
-</div>
 
 <!-- SPLASH 1 — главный (Winx) -->
 <div id="splashScreen" class="splash-screen">
@@ -744,12 +678,29 @@ main{padding-top:calc(var(--nav-h,64px) + 14px)!important}
 </header>
 
 <button class="dev-toggle-float" id="devToggleFloat" onclick="toggleDevMode()" title="Режим разработчика">🔧</button>
+<div class="dev-auth-modal" id="devAuthModal" aria-hidden="true">
+  <div class="dev-auth-box" role="dialog" aria-modal="true" aria-labelledby="devAuthTitle">
+    <div class="dev-auth-title" id="devAuthTitle">🔐 Вход разработчика</div>
+    <div class="dev-auth-sub">Вход выполняется через Supabase. Режим разработчика доступен только аккаунтам с ролью <b>admin</b> или <b>developer</b>.</div>
+    <form id="devAuthForm">
+      <input id="devAuthEmail" type="email" autocomplete="username" placeholder="Email" required>
+      <input id="devAuthPassword" type="password" autocomplete="current-password" placeholder="Пароль" required>
+      <div class="dev-auth-error" id="devAuthError"></div>
+      <div class="dev-auth-actions">
+        <button type="button" onclick="closeDeveloperLogin()">Отмена</button>
+        <button type="submit" class="primary">Войти</button>
+      </div>
+      <div class="dev-auth-status" id="devAuthStatus"></div>
+    </form>
+  </div>
+</div>
 <div class="dev-panel" id="devPanel">
   <div class="dev-panel-title">🔧 Режим разработчика</div>
   <button onclick="unlockAllLevels()">🔓 Открыть все уроки</button>
   <button onclick="lockAllLevels()">🔒 Закрыть все уроки</button>
   <button onclick="resetDiagnostic()">♻️ Сбросить диагностику</button>
-  <button class="admin-users-btn" id="adminUsersBtn" style="display:none" type="button">👑 Управление пользователями</button><button class="dev-logout" id="devLogout">🚪 Выйти из аккаунта</button>
+  <button onclick="developerSignOut()">↪️ Выйти из аккаунта</button>
+  <div class="dev-auth-user" id="devAuthUser"></div>
   <div class="dev-list-title">По урокам</div>
   <div id="devLessonList"></div>
 </div>
@@ -842,7 +793,7 @@ main{padding-top:calc(var(--nav-h,64px) + 14px)!important}
 
 </main>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+  <script>
 /* ==================== SPLASH 1 (главный) ==================== */
 (function initSplash(){
   var splash = document.getElementById('splashScreen');
@@ -1610,100 +1561,6 @@ var STORAGE_TEST_STATS='alfea_test_stats_v11';
 var STORAGE_DIAG='alfea_diag_v11';
 var STORAGE_MODE='alfea_mode_v11';
 
-
-/* ==================== SUPABASE AUTH ==================== */
-var SUPABASE_URL='https://lizdmjoikihy.supabase.co';
-var SUPABASE_PUBLISHABLE_KEY='sb_publishable_eHbW66ZP7i6tx0ENLihLRg_Hjws2e5k';
-var supabaseClient=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
-var CURRENT_USER=null;
-var CURRENT_ROLE='student';
-var AUTH_READY=false;
-var PRIVILEGED_ROLES=['admin','developer'];
-
-function isPrivileged(){return PRIVILEGED_ROLES.indexOf(CURRENT_ROLE)!==-1;}
-function showAuthModal(){
-  var m=$('#authModal'); if(!m)return;
-  m.classList.add('show'); m.setAttribute('aria-hidden','false');
-  setTimeout(function(){var e=$('#authEmail');if(e)e.focus();},50);
-}
-function hideAuthModal(){var m=$('#authModal');if(!m)return;m.classList.remove('show');m.setAttribute('aria-hidden','true');}
-function authMessage(msg){var e=$('#authError');if(!e)return;e.textContent=msg||'';e.classList.toggle('show',!!msg);}
-async function loadCurrentRole(){
-  CURRENT_ROLE='student';
-  if(!supabaseClient||!CURRENT_USER)return;
-  try{
-    var r=await supabaseClient.from('user_roles').select('role').eq('user_id',CURRENT_USER.id).maybeSingle();
-    if(r&&r.data&&r.data.role)CURRENT_ROLE=r.data.role;
-  }catch(e){console.warn('[Auth] role read failed',e);}
-}
-function applyAuthAccess(){
-  var devBtn=$('#devToggleFloat'), devPan=$('#devPanel');
-  if(!isPrivileged()){
-    DEV_MODE=false; saveDevMode(false);
-    if(devBtn)devBtn.classList.remove('visible','on');
-    if(devPan)devPan.classList.remove('show');
-  }else{
-    if(devBtn)devBtn.classList.add('visible');
-    if(devBtn)devBtn.classList.toggle('on',DEV_MODE);
-    if(devPan)devPan.classList.toggle('show',DEV_MODE);
-    if(DEV_MODE)renderDevLessonList();
-  }
-  var u=$('#authUser'); if(u)u.textContent=CURRENT_USER?(CURRENT_USER.email+' · '+CURRENT_ROLE):'';
-  applyAdminAccess();
-}
-async function initAuth(){
-  if(!supabaseClient){console.warn('[Auth] Supabase client unavailable');AUTH_READY=true;return;}
-  try{
-    var sessionRes=await supabaseClient.auth.getSession();
-    CURRENT_USER=sessionRes&&sessionRes.data?sessionRes.data.session?.user||null:null;
-    await loadCurrentRole();
-  }catch(e){console.warn('[Auth] session read failed',e);CURRENT_USER=null;CURRENT_ROLE='student';}
-  AUTH_READY=true;
-  applyAuthAccess();
-  var params=new URLSearchParams(location.search);
-  if(params.get('login')==='1'||location.hash==='#login'){
-    if(CURRENT_USER)hideAuthModal(); else showAuthModal();
-  }
-  supabaseClient.auth.onAuthStateChange(async function(_event,session){
-    CURRENT_USER=session?session.user:null;
-    await loadCurrentRole();
-    applyAuthAccess();
-  });
-}
-async function doLogout(){
-  if(supabaseClient)try{await supabaseClient.auth.signOut();}catch(e){console.warn('[Auth] sign out failed',e);}
-  CURRENT_USER=null;CURRENT_ROLE='student';DEV_MODE=false;saveDevMode(false);applyAuthAccess();
-}
-/* ==================== ADMIN USER MANAGEMENT ==================== */
-var supabaseAuthHelper=(window.supabase&&window.supabase.createClient)?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY,{auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}}):null;
-function isAdmin(){return CURRENT_ROLE==='admin';}
-function adminUsersMessage(msg,ok){var e=$('#adminUsersMsg');if(!e)return;e.textContent=msg||'';e.className='admin-msg '+(msg?(ok?'show ok':'show err'):'');}
-function showAdminUsers(){if(!isAdmin()){return;}var m=$('#adminUsersModal');if(!m)return;m.classList.add('show');m.setAttribute('aria-hidden','false');adminUsersMessage('');loadAdminUsers();}
-function hideAdminUsers(){var m=$('#adminUsersModal');if(!m)return;m.classList.remove('show');m.setAttribute('aria-hidden','true');}
-async function loadAdminUsers(){var box=$('#adminUserList');if(!box||!supabaseClient)return;box.innerHTML='<div style="color:rgba(255,255,255,.45);font-size:12px">Загрузка…</div>';try{var r=await supabaseClient.rpc('admin_list_users');if(r.error)throw r.error;var rows=r.data||[];if(!rows.length){box.innerHTML='<div style="color:rgba(255,255,255,.45);font-size:12px">Пользователей пока нет.</div>';return;}box.innerHTML=rows.map(function(u){var role=u.role||'student';return '<div class="admin-user-row"><div><div class="admin-user-email">'+escapeHtml(u.email||'Без email')+'</div><div class="admin-user-meta">'+escapeHtml(role)+' · '+escapeHtml(u.user_id||'')+'</div></div><select class="admin-role-select" data-uid="'+escapeHtml(u.user_id)+'" data-email="'+escapeHtml(u.email||'')+'"><option value="student" '+(role==='student'?'selected':'')+'>student</option><option value="developer" '+(role==='developer'?'selected':'')+'>developer</option><option value="admin" '+(role==='admin'?'selected':'')+'>admin</option></select></div>';}).join('');box.querySelectorAll('.admin-role-select').forEach(function(sel){sel.addEventListener('change',async function(){var role=sel.value;sel.disabled=true;try{var r=await supabaseClient.rpc('admin_set_user_role',{target_user_id:sel.dataset.uid,new_role:role});if(r.error)throw r.error;adminUsersMessage('Роль обновлена: '+sel.dataset.email+' → '+role,true);await loadAdminUsers();}catch(e){adminUsersMessage(e&&e.message?e.message:'Не удалось изменить роль.',false);sel.disabled=false;}});});}catch(e){box.innerHTML='<div style="color:#ff9aaf;font-size:12px;line-height:1.5">Не удалось загрузить пользователей. Сначала установи SQL-настройку из файла, который я дал вместе с сайтом.</div>';}}
-async function createDeveloper(){if(!isAdmin()||!supabaseAuthHelper)return;var email=(($('#newDevEmail')||{}).value||'').trim();var password=(($('#newDevPassword')||{}).value||'');if(!email||!password){adminUsersMessage('Укажи email и пароль.',false);return;}if(password.length<6){adminUsersMessage('Пароль должен быть не короче 6 символов.',false);return;}var btn=$('#createDevBtn');if(btn){btn.disabled=true;btn.textContent='Создаём…';}adminUsersMessage('');try{var r=await supabaseAuthHelper.auth.signUp({email:email,password:password});if(r.error)throw r.error;var uid=r.data&&r.data.user?r.data.user.id:null;if(!uid)throw new Error('Supabase не вернул UID пользователя.');var rr=await supabaseClient.rpc('admin_set_user_role',{target_user_id:uid,new_role:'developer'});if(rr.error)throw rr.error;adminUsersMessage('Готово: '+email+' добавлен как developer.',true);$('#newDevEmail').value='';$('#newDevPassword').value='';await loadAdminUsers();}catch(e){adminUsersMessage(e&&e.message?e.message:'Не удалось создать разработчика.',false);}finally{if(btn){btn.disabled=false;btn.textContent='➕ Создать разработчика';}}}
-function initAdminUsersUI(){var b=$('#adminUsersBtn'),c=$('#adminUsersClose'),m=$('#adminUsersModal'),create=$('#createDevBtn');if(b)b.addEventListener('click',showAdminUsers);if(c)c.addEventListener('click',hideAdminUsers);if(m)m.addEventListener('click',function(e){if(e.target===m)hideAdminUsers();});if(create)create.addEventListener('click',createDeveloper);}
-function applyAdminAccess(){var b=$('#adminUsersBtn');if(b)b.style.display=isAdmin()?'block':'none';if(!isAdmin())hideAdminUsers();}
-
-function initAuthUI(){
-  var form=$('#authForm'), close=$('#authClose'), modal=$('#authModal'), logout=$('#devLogout');
-  if(close)close.addEventListener('click',hideAuthModal);
-  if(modal)modal.addEventListener('click',function(e){if(e.target===modal)hideAuthModal();});
-  if(form)form.addEventListener('submit',async function(e){
-    e.preventDefault();authMessage('');
-    var email=($('#authEmail')||{}).value||'', password=($('#authPassword')||{}).value||'';
-    var btn=$('#authSubmit');if(btn){btn.disabled=true;btn.textContent='Входим…';}
-    try{
-      if(!supabaseClient)throw new Error('Сервис авторизации недоступен.');
-      var r=await supabaseClient.auth.signInWithPassword({email:email,password:password});
-      if(r.error)throw r.error;
-      CURRENT_USER=r.data.user;await loadCurrentRole();applyAuthAccess();hideAuthModal();
-    }catch(err){authMessage(err&&err.message?err.message:'Не удалось выполнить вход.');}
-    finally{if(btn){btn.disabled=false;btn.textContent='Войти';}}
-  });
-  if(logout)logout.addEventListener('click',doLogout);
-}
-
 function loadLessons(){try{var r=localStorage.getItem(STORAGE_LESSONS);if(r){var a=JSON.parse(r);if(Array.isArray(a)&&a.length)return a;}}catch(e){}return null;}
 function loadUnlocked(){try{var r=localStorage.getItem(STORAGE_UNLOCKED);if(r)return JSON.parse(r);}catch(e){}return {alfea:true,omega:true};}
 function saveUnlocked(){try{localStorage.setItem(STORAGE_UNLOCKED,JSON.stringify(UNLOCKED));}catch(e){}}
@@ -1721,7 +1578,11 @@ var LESSONS_DATA=null;
 var EXIT_TESTS_CURRENT=EXIT_TESTS_WINX;
 var MINI_GAMES_CURRENT=null;
 var UNLOCKED=loadUnlocked();
-var DEV_MODE=loadDevMode();
+var DEV_MODE=false;
+var DEV_AUTHORIZED=false;
+var ALFEA_SUPABASE_URL='https://lizdmjoikihy.supabase.co';
+var ALFEA_SUPABASE_PUBLISHABLE_KEY='sb_publishable_eHbW66ZP7i6tx0ENLihLRg_Hjws2e5k';
+var alfeaSupabase=null;
 var TEST_STATS=loadTestStats();
 var DIAGNOSTIC_RESULT=loadDiagResult();
 
@@ -1949,14 +1810,81 @@ document.addEventListener('click',function(e){
 });
 
 /* ==================== DEVELOPER MODE ==================== */
-function toggleDevMode(){if(!isPrivileged()){showAuthModal();return;}DEV_MODE=!DEV_MODE;saveDevMode(DEV_MODE);var btn=$('#devToggleFloat'),panel=$('#devPanel');if(btn)btn.classList.toggle('on',DEV_MODE);if(panel)panel.classList.toggle('show',DEV_MODE);if(DEV_MODE)renderDevLessonList();refreshAll();}
-function unlockAllLevels(){if(!isPrivileged())return;getLevelsForMode(MODE).forEach(function(l){UNLOCKED[l.id]=true;});saveUnlocked();refreshAll();sfxWin();}
-function lockAllLevels(){if(!isPrivileged())return;getLevelsForMode(MODE).forEach(function(l){UNLOCKED[l.id]=false;});saveUnlocked();refreshAll();sfxNo();}
-function resetDiagnostic(){if(!isPrivileged())return;if(!confirm('Сбросить результат входной диагностики?'))return;clearDiag();DIAGNOSTIC_RESULT=null;var a=$('#diagResultArea');if(a)a.innerHTML='';sfxClick();}
-function toggleLevelLock(levelId){if(!isPrivileged())return;UNLOCKED[levelId]=!UNLOCKED[levelId];saveUnlocked();refreshAll();tone(UNLOCKED[levelId]?880:440,0,.12);}
+function devGuard(){return !!DEV_AUTHORIZED;}
+function toggleDevMode(){if(!devGuard()){openDeveloperLogin();return;}DEV_MODE=!DEV_MODE;saveDevMode(DEV_MODE);var btn=$('#devToggleFloat'),panel=$('#devPanel');if(btn)btn.classList.toggle('on',DEV_MODE);if(panel)panel.classList.toggle('show',DEV_MODE);if(DEV_MODE)renderDevLessonList();refreshAll();}
+function unlockAllLevels(){if(!devGuard())return;getLevelsForMode(MODE).forEach(function(l){UNLOCKED[l.id]=true;});saveUnlocked();refreshAll();sfxWin();}
+function lockAllLevels(){if(!devGuard())return;getLevelsForMode(MODE).forEach(function(l){UNLOCKED[l.id]=false;});saveUnlocked();refreshAll();sfxNo();}
+function resetDiagnostic(){if(!devGuard())return;if(!confirm('Сбросить результат входной диагностики?'))return;clearDiag();DIAGNOSTIC_RESULT=null;var a=$('#diagResultArea');if(a)a.innerHTML='';sfxClick();}
+function toggleLevelLock(levelId){if(!devGuard())return;UNLOCKED[levelId]=!UNLOCKED[levelId];saveUnlocked();refreshAll();tone(UNLOCKED[levelId]?880:440,0,.12);}
 function refreshAll(){if(CURRENT_SCREEN==='gameMap')renderGameMap();if(CURRENT_SCREEN==='lessons')renderLessons();renderDevLessonList();}
-function renderDevLessonList(){var box=$('#devLessonList');if(!box)return;if(!DEV_MODE){box.innerHTML='';return;}var html='';getLevelsForMode(MODE).forEach(function(lvl){var lesson=getLesson(lvl.id);var isUnlocked=UNLOCKED[lvl.id];var label=(lesson&&lesson.name)?lesson.name:lvl.name;html+='<div class="dev-lesson-row"><span class="dl-icon">'+lvl.icon+'</span><span class="dl-name">'+escapeHtml(label)+'</span><button class="dl-toggle '+(isUnlocked?'open':'closed')+'" onclick="toggleLevelLock(\''+lvl.id+'\')">'+(isUnlocked?'🔓':'🔒')+'</button></div>';});box.innerHTML=html;}
+function renderDevLessonList(){var box=$('#devLessonList');if(!box)return;if(!DEV_MODE||!DEV_AUTHORIZED){box.innerHTML='';return;}var html='';getLevelsForMode(MODE).forEach(function(lvl){var lesson=getLesson(lvl.id);var isUnlocked=UNLOCKED[lvl.id];var label=(lesson&&lesson.name)?lesson.name:lvl.name;html+='<div class="dev-lesson-row"><span class="dl-icon">'+lvl.icon+'</span><span class="dl-name">'+escapeHtml(label)+'</span><button class="dl-toggle '+(isUnlocked?'open':'closed')+'" onclick="toggleLevelLock(\''+lvl.id+'\')">'+(isUnlocked?'🔓':'🔒')+'</button></div>';});box.innerHTML=html;}
 window.toggleLevelLock = toggleLevelLock;
+
+/* ==================== SUPABASE DEVELOPER AUTH ==================== */
+function setDevAuthUI(authorized,user){
+  DEV_AUTHORIZED=!!authorized;
+  var btn=$('#devToggleFloat'), panel=$('#devPanel'), userEl=$('#devAuthUser');
+  if(!authorized){
+    DEV_MODE=false; saveDevMode(false);
+    if(btn){btn.classList.remove('visible');btn.classList.remove('on');}
+    if(panel)panel.classList.remove('show');
+    if(userEl)userEl.textContent='';
+    renderDevLessonList();
+    return;
+  }
+  if(btn)btn.classList.add('visible');
+  if(userEl)userEl.textContent=user&&user.email?('Выполнен вход: '+user.email):'';
+  DEV_MODE=loadDevMode();
+  if(btn)btn.classList.toggle('on',DEV_MODE);
+  if(panel)panel.classList.toggle('show',DEV_MODE);
+  if(DEV_MODE)renderDevLessonList();
+}
+function openDeveloperLogin(){
+  var m=$('#devAuthModal'); if(!m)return;
+  m.classList.add('show'); m.setAttribute('aria-hidden','false');
+  var er=$('#devAuthError'); if(er){er.textContent='';er.classList.remove('show');}
+  var st=$('#devAuthStatus'); if(st)st.textContent='';
+  setTimeout(function(){var e=$('#devAuthEmail');if(e)e.focus();},30);
+}
+function closeDeveloperLogin(){var m=$('#devAuthModal');if(m){m.classList.remove('show');m.setAttribute('aria-hidden','true');}}
+function showDevAuthError(msg){var e=$('#devAuthError');if(e){e.textContent=msg||'Ошибка входа';e.classList.add('show');}}
+async function loadDeveloperAuthorization(user){
+  if(!alfeaSupabase||!user){setDevAuthUI(false,null);return;}
+  try{
+    var res=await alfeaSupabase.from('user_roles').select('role').eq('user_id',user.id).maybeSingle();
+    if(res.error){console.error('Role check failed',res.error);setDevAuthUI(false,user);return;}
+    var role=res.data&&res.data.role;
+    setDevAuthUI(role==='admin'||role==='developer',user);
+  }catch(err){console.error(err);setDevAuthUI(false,user);}
+}
+async function developerSignIn(email,password){
+  if(!alfeaSupabase)return;
+  var st=$('#devAuthStatus'); if(st)st.textContent='Проверяем аккаунт…';
+  var er=$('#devAuthError'); if(er)er.classList.remove('show');
+  var result=await alfeaSupabase.auth.signInWithPassword({email:email,password:password});
+  if(result.error){if(st)st.textContent='';showDevAuthError('Не удалось войти. Проверь email и пароль.');return;}
+  var user=result.data&&result.data.user;
+  await loadDeveloperAuthorization(user);
+  if(DEV_AUTHORIZED){closeDeveloperLogin();if(st)st.textContent='';}else{await alfeaSupabase.auth.signOut();if(st)st.textContent='';showDevAuthError('Этот аккаунт не имеет роли admin/developer.');}
+}
+async function developerSignOut(){
+  if(alfeaSupabase)await alfeaSupabase.auth.signOut();
+  setDevAuthUI(false,null);
+}
+async function initSupabaseDeveloperAuth(){
+  if(!window.supabase||!window.supabase.createClient){console.error('Supabase library failed to load');return;}
+  alfeaSupabase=window.supabase.createClient(ALFEA_SUPABASE_URL,ALFEA_SUPABASE_PUBLISHABLE_KEY);
+  var current=await alfeaSupabase.auth.getUser();
+  if(current&&current.data&&current.data.user)await loadDeveloperAuthorization(current.data.user);else setDevAuthUI(false,null);
+  alfeaSupabase.auth.onAuthStateChange(function(event,session){
+    if(session&&session.user){setTimeout(function(){loadDeveloperAuthorization(session.user);},0);}else{setDevAuthUI(false,null);}
+  });
+  var form=$('#devAuthForm');
+  if(form)form.addEventListener('submit',function(e){e.preventDefault();developerSignIn($('#devAuthEmail').value.trim(),$('#devAuthPassword').value);});
+  var wantsLogin=/([?&])(admin|developer)(=1|&|$)/.test(location.search);
+  if(wantsLogin&&!DEV_AUTHORIZED)openDeveloperLogin();
+}
+window.openDeveloperLogin=openDeveloperLogin;window.closeDeveloperLogin=closeDeveloperLogin;window.developerSignOut=developerSignOut;
 
 /* ==================== MINI GAMES ENGINE ==================== */
 var MINI={key:null,game:null,idx:0,correct:0,total:0,matched:0,selL:null};
@@ -2279,7 +2207,7 @@ function renderGameMap(){
     });
     rosterHtml+='</div>';
     var devLockBtn='';
-    if(DEV_MODE){devLockBtn='<button class="dev-lock-btn '+(isUnlocked?'unlocked':'locked')+'" onclick="event.stopPropagation();toggleLevelLock(\''+lvl.id+'\')">'+(isUnlocked?'🔓':'🔒')+'</button>';}
+    if(DEV_MODE&&DEV_AUTHORIZED){devLockBtn='<button class="dev-lock-btn '+(isUnlocked?'unlocked':'locked')+'" onclick="event.stopPropagation();toggleLevelLock(\''+lvl.id+'\')">'+(isUnlocked?'🔓':'🔒')+'</button>';}
     var storyHtml = lvl.story ? '<div style="font-size:12.5px;color:#c9b8e8;line-height:1.6;margin-bottom:14px;font-style:italic;padding:10px 12px;border-radius:10px;background:rgba(0,0,0,.25);border-left:3px solid '+lvl.accent+'">'+escapeHtml(lvl.story)+'</div>' : '';
     html+='<div class="level-card'+(isUnlocked?'':' locked')+'" style="--level-accent:'+lvl.accent+';--level-bg:'+lvl.bg+'" data-level="'+lvl.id+'">'+devLockBtn+'<div class="level-inner"><div class="level-header"><div><div class="level-num">Level '+lvl.order+'</div><div class="level-title">'+lvl.name+'</div><div class="level-subtitle">'+lvl.subtitle+'</div></div><div class="level-icon">'+lvl.icon+'</div></div>'+rosterHtml+'<div class="level-desc">'+lvl.description+'</div>'+storyHtml+'<div class="level-footer"><span class="level-status '+(isUnlocked?'done':'')+'">'+(isUnlocked?'✅ Open':'🔒 Locked')+'</span><span class="level-play">'+(isUnlocked?'▶ Open':'🔒')+'</span></div></div></div>';
   });
@@ -2305,13 +2233,8 @@ window.renderGameMap=renderGameMap;window.unlockAllLevels=unlockAllLevels;window
   updateModeUI();
   renderHome();
 
-  var devBtn=$('#devToggleFloat'),devPan=$('#devPanel');
-  if(devBtn)devBtn.classList.toggle('on',DEV_MODE);
-  if(devPan)devPan.classList.toggle('show',DEV_MODE);
-  if(DEV_MODE)renderDevLessonList();
-  /* SECURITY: developer controls are granted only by Supabase role. ?dev=1 alone never grants access. */
-  if(devBtn)devBtn.classList.remove('visible');
-  if(devPan)devPan.classList.remove('show');
+  /* Secure developer access: visibility is controlled by Supabase role, not by URL/localStorage. */
+  initSupabaseDeveloperAuth();
   /* FIX: content padding follows the real navbar height (on phones the menu used to cover the logo) */
   var navEl=document.querySelector('.navbar');
   function syncNavHeight(){if(navEl)document.documentElement.style.setProperty('--nav-h',navEl.offsetHeight+'px');}
@@ -2327,9 +2250,6 @@ window.renderGameMap=renderGameMap;window.unlockAllLevels=unlockAllLevels;window
     document.addEventListener('touchstart',initAudio,{once:true});
   });
   renderDiagnosticIntro();
-  initAuthUI();
-  initAdminUsersUI();
-  initAuth();
 })();
 
 /* ==================== ROUTING (manifest shortcuts #lessons / #tests / #diagnostic) ==================== */
